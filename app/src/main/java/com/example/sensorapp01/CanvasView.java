@@ -9,6 +9,7 @@ import android.view.View;
 
 public class CanvasView extends View {
     Paint paint;
+    private  float cvW, cvH;
     private  float posX,posY;
     private  float velX,velY;
 
@@ -19,6 +20,8 @@ public class CanvasView extends View {
 
     @Override
     protected void onDraw(Canvas cv){
+        cvW = cv.getWidth();
+        cvW = cv.getHeight();
         paint.setColor(Color.DKGRAY);
         cv. drawCircle(cv.getWidth()/2 + posX,cv.getHeight()/2 + posY,50,paint);
 
@@ -26,13 +29,20 @@ public class CanvasView extends View {
 
     public void setPos(float ax,float ay){
         ax *=-1;
-        float dt = 1.0f;
+        float dt = 0.1f;
 
         posX += velX * dt +ax * dt *dt;
-        velX +=velX+=ax*dt;
+        velX +=ax*dt;
 
-        posY+=velY*dt+ax*dt*dt;
+        posY+=velY*dt+ay*dt*dt;
         velY +=ay*dt;
+
+
+        if (posX>cvW/2 ) {
+            velX = 0;
+            posX = cvW / 2 ;
+        }
+
 
         invalidate();
 
